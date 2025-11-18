@@ -1,0 +1,50 @@
+<div class="favorites-page">
+  <div class="container">
+    <h1 class="page-title">Mes Favoris</h1>
+    
+    <div *ngIf="favoriteTeachers.length === 0" class="no-favorites">
+      <p>Vous n'avez pas encore de professeurs favoris.</p>
+      <a routerLink="/professeurs" class="btn-primary">Découvrir les professeurs</a>
+    </div>
+
+    <div *ngIf="favoriteTeachers.length > 0" class="favorites-grid">
+      <div *ngFor="let teacher of favoriteTeachers" class="teacher-card">
+        <div class="teacher-photo">
+          <img [src]="teacher.photo || 'https://i.pravatar.cc/150'" [alt]="teacher.nom" />
+        </div>
+        <div class="teacher-info">
+          <h3>{{ teacher.nom }}</h3>
+          <p class="teacher-matiere">{{ teacher.matiere }}</p>
+          <p class="teacher-price">{{ teacher.prixParHeure }}€/h</p>
+          
+          <div class="teacher-rating">
+            <span class="stars">
+              <i *ngFor="let star of getStars(teacher.noteMoyenne)" 
+                 [class]="'fas fa-star star-' + star"
+                 [class.far]="star === 'empty'"
+                 [class.fa-star-half-alt]="star === 'half'"></i>
+            </span>
+            <span class="rating-value">{{ teacher.noteMoyenne }}</span>
+          </div>
+          
+          <p class="teacher-location">
+            <i [class]="teacher.coursEnLigne ? 'fas fa-laptop' : 'fas fa-map-marker-alt'"></i>
+            {{ teacher.coursEnLigne ? 'En ligne' : teacher.ville }}
+          </p>
+          
+          <p class="teacher-experience">{{ teacher.anneesExperience }} ans d'expérience</p>
+          
+          <div class="card-actions">
+            <a [routerLink]="['/professeur', teacher.id]" class="btn-primary btn-view-profile">
+              Voir le profil
+            </a>
+            <button (click)="removeFavorite(teacher.id)" class="btn-secondary btn-remove">
+              Retirer des favoris
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

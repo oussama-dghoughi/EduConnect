@@ -1,0 +1,281 @@
+<div class="home-page">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-background">
+      <div class="hero-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span><i class="fas fa-sparkles"></i> Plus de 30 professeurs qualifiés</span>
+        </div>
+        <h1 class="hero-title">
+          Trouvez votre <span class="highlight">professeur particulier</span> en quelques clics
+        </h1>
+        <p class="hero-subtitle">
+          Cours en ligne ou à domicile – Maths, Anglais, Informatique, et plus encore. 
+          Apprenez à votre rythme avec des professeurs expérimentés.
+        </p>
+        
+        <!-- Zone de Recherche -->
+        <div class="search-section">
+          <div class="search-box">
+            <div class="search-icon"><i class="fas fa-search"></i></div>
+            <input 
+              type="text" 
+              placeholder="Rechercher une matière, un prof, une ville…"
+              [(ngModel)]="searchQuery"
+              (keyup.enter)="onSearch()"
+              class="search-input"
+            />
+            <select [(ngModel)]="selectedMatiere" class="search-select">
+              <option value="">Toutes les matières</option>
+              <option *ngFor="let matiere of matieres" [value]="matiere">{{ matiere }}</option>
+            </select>
+            <button (click)="onSearch()" class="btn-primary search-btn">
+              <span>Rechercher</span>
+              <span class="btn-arrow">→</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Statistiques rapides -->
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-number">30+</div>
+            <div class="stat-label">Professeurs</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">11</div>
+            <div class="stat-label">Matières</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">4.7</div>
+            <div class="stat-label">Note moyenne</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Satisfaction</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Catégories -->
+  <section class="categories">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Catégories populaires</h2>
+        <p class="section-subtitle">Choisissez la matière qui vous intéresse</p>
+      </div>
+      <div class="categories-grid">
+        <div class="category-card" (click)="selectCategory('Maths')">
+          <div class="category-icon-wrapper">
+            <div class="category-icon"><i class="fas fa-calculator"></i></div>
+          </div>
+          <h3>Maths</h3>
+          <p class="category-count">8 professeurs</p>
+        </div>
+        <div class="category-card" (click)="selectCategory('Anglais')">
+          <div class="category-icon-wrapper">
+            <div class="category-icon"><i class="fas fa-language"></i></div>
+          </div>
+          <h3>Anglais</h3>
+          <p class="category-count">5 professeurs</p>
+        </div>
+        <div class="category-card" (click)="selectCategory('Informatique')">
+          <div class="category-icon-wrapper">
+            <div class="category-icon"><i class="fas fa-laptop-code"></i></div>
+          </div>
+          <h3>Informatique</h3>
+          <p class="category-count">4 professeurs</p>
+        </div>
+        <div class="category-card" (click)="selectCategory('Physique-Chimie')">
+          <div class="category-icon-wrapper">
+            <div class="category-icon"><i class="fas fa-flask"></i></div>
+          </div>
+          <h3>Physique-Chimie</h3>
+          <p class="category-count">4 professeurs</p>
+        </div>
+        <div class="category-card" (click)="selectCategory('SVT')">
+          <div class="category-icon-wrapper">
+            <div class="category-icon"><i class="fas fa-microscope"></i></div>
+          </div>
+          <h3>SVT</h3>
+          <p class="category-count">3 professeurs</p>
+        </div>
+        <div class="category-card" (click)="selectCategory('Économie')">
+          <div class="category-icon-wrapper">
+            <div class="category-icon"><i class="fas fa-chart-line"></i></div>
+          </div>
+          <h3>Économie</h3>
+          <p class="category-count">3 professeurs</p>
+        </div>
+        <div class="category-card" (click)="selectCategory('Français')">
+          <div class="category-icon-wrapper">
+            <div class="category-icon"><i class="fas fa-book"></i></div>
+          </div>
+          <h3>Français</h3>
+          <p class="category-count">2 professeurs</p>
+        </div>
+        <div class="category-card" (click)="selectCategory('Histoire-Géographie')">
+          <div class="category-icon-wrapper">
+            <div class="category-icon"><i class="fas fa-globe-europe"></i></div>
+          </div>
+          <h3>Histoire-Géo</h3>
+          <p class="category-count">2 professeurs</p>
+        </div>
+        <div class="category-card" (click)="selectCategory('Espagnol')">
+          <div class="category-icon-wrapper">
+            <div class="category-icon"><i class="fas fa-globe-americas"></i></div>
+          </div>
+          <h3>Espagnol</h3>
+          <p class="category-count">2 professeurs</p>
+        </div>
+        <div class="category-card" (click)="selectCategory('Allemand')">
+          <div class="category-icon-wrapper">
+            <div class="category-icon"><i class="fas fa-globe"></i></div>
+          </div>
+          <h3>Allemand</h3>
+          <p class="category-count">1 professeur</p>
+        </div>
+        <div class="category-card" (click)="selectCategory('Philosophie')">
+          <div class="category-icon-wrapper">
+            <div class="category-icon"><i class="fas fa-lightbulb"></i></div>
+          </div>
+          <h3>Philosophie</h3>
+          <p class="category-count">1 professeur</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pourquoi nous choisir -->
+  <section class="features">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Pourquoi choisir EduConnect ?</h2>
+        <p class="section-subtitle">Une plateforme simple, efficace et fiable</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-bullseye"></i></div>
+          <h3>Recherche rapide</h3>
+          <p>Trouvez le professeur idéal en quelques secondes grâce à nos filtres avancés et notre moteur de recherche intelligent.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-star"></i></div>
+          <h3>Professeurs vérifiés</h3>
+          <p>Tous nos professeurs sont qualifiés et expérimentés. Consultez leurs avis et notes pour faire le meilleur choix.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-laptop"></i></div>
+          <h3>Cours flexibles</h3>
+          <p>Choisissez entre cours en ligne ou à domicile, selon vos préférences et votre emploi du temps.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-euro-sign"></i></div>
+          <h3>Prix transparents</h3>
+          <p>Des tarifs clairs et compétitifs. Filtrez par prix pour trouver le professeur qui correspond à votre budget.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
+          <h3>Interface intuitive</h3>
+          <p>Une plateforme moderne et facile à utiliser, accessible sur tous vos appareils.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+          <h3>Sécurisé et fiable</h3>
+          <p>Vos données sont protégées. Système de favoris pour sauvegarder vos professeurs préférés.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Témoignages -->
+  <section class="testimonials">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Ce que disent nos utilisateurs</h2>
+        <p class="section-subtitle">Des milliers d'élèves nous font confiance</p>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+          <p class="testimonial-text">"J'ai trouvé un excellent professeur de maths en quelques minutes. Les cours en ligne sont très pratiques et efficaces !"</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">S</div>
+            <div class="author-info">
+              <div class="author-name">Sophie L.</div>
+              <div class="author-role">Élève de Terminale</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+          <p class="testimonial-text">"Plateforme très intuitive. J'ai pu comparer plusieurs professeurs d'anglais et choisir celui qui me correspondait le mieux."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">T</div>
+            <div class="author-info">
+              <div class="author-name">Thomas M.</div>
+              <div class="author-role">Étudiant</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-rating">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+          <p class="testimonial-text">"En tant que parent, j'apprécie la transparence des prix et la facilité à trouver un professeur pour ma fille."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">M</div>
+            <div class="author-info">
+              <div class="author-name">Marie D.</div>
+              <div class="author-role">Parent</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2 class="cta-title">Prêt à commencer votre apprentissage ?</h2>
+        <p class="cta-subtitle">Rejoignez des milliers d'élèves qui font confiance à EduConnect</p>
+        <div class="cta-buttons">
+          <button (click)="router.navigate(['/professeurs'])" class="btn-primary btn-cta">
+            Découvrir les professeurs
+          </button>
+          <a routerLink="/a-propos" class="btn-secondary btn-cta-secondary">
+            En savoir plus
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+

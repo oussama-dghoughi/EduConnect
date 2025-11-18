@@ -1,0 +1,78 @@
+<div class="contact-page">
+  <div class="container">
+    <h1 class="page-title">Contactez-nous</h1>
+    
+    <div class="contact-content">
+      <div class="contact-info">
+        <h2>Informations de contact</h2>
+        <div class="info-item">
+          <strong>Email :</strong>
+          <p>contact&#64;educonnect.fr</p>
+        </div>
+        <div class="info-item">
+          <strong>Téléphone :</strong>
+          <p>01 23 45 67 89</p>
+        </div>
+        <div class="info-item">
+          <strong>Adresse :</strong>
+          <p>123 Rue de l'Éducation<br>75001 Paris, France</p>
+        </div>
+      </div>
+
+      <form class="contact-form" (ngSubmit)="onSubmit()">
+        <h2>Envoyez-nous un message</h2>
+        
+        <div class="form-group">
+          <label for="name">Nom complet</label>
+          <input 
+            type="text" 
+            id="name" 
+            [(ngModel)]="contactForm.name"
+            name="name"
+            required
+            placeholder="Votre nom"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input 
+            type="email" 
+            id="email" 
+            [(ngModel)]="contactForm.email"
+            name="email"
+            required
+            placeholder="votre@email.com"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="subject">Sujet</label>
+          <input 
+            type="text" 
+            id="subject" 
+            [(ngModel)]="contactForm.subject"
+            name="subject"
+            required
+            placeholder="Sujet de votre message"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea 
+            id="message" 
+            [(ngModel)]="contactForm.message"
+            name="message"
+            required
+            rows="6"
+            placeholder="Votre message..."
+          ></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary">Envoyer le message</button>
+      </form>
+    </div>
+  </div>
+</div>
+

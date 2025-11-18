@@ -1,0 +1,577 @@
+.about-page {
+  min-height: calc(100vh - 80px);
+  background: #FAFAFA;
+}
+
+/* Hero Section */
+.about-hero {
+  position: relative;
+  background: linear-gradient(135deg, var(--primary-color) 0%, #6B8AFF 50%, #8BA5FF 100%);
+  padding: 120px 0 100px;
+  text-align: center;
+  color: var(--white);
+  overflow: hidden;
+}
+
+.hero-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  opacity: 0.5;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.hero-title {
+  font-size: 64px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  line-height: 1.2;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.hero-subtitle {
+  font-size: 24px;
+  opacity: 0.95;
+  line-height: 1.6;
+  animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Section Wrapper */
+.section-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* Mission Section */
+.mission-section {
+  padding: 100px 0;
+  background: var(--white);
+}
+
+.mission-content {
+  text-align: center;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.mission-icon {
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, var(--primary-color), #6B8AFF);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 40px;
+  color: var(--white);
+  font-size: 48px;
+  box-shadow: 0 10px 40px rgba(74, 108, 247, 0.3);
+}
+
+.mission-content h2 {
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 30px;
+}
+
+.mission-text {
+  font-size: 20px;
+  line-height: 1.9;
+  color: #555;
+  margin-bottom: 60px;
+}
+
+.mission-values {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  margin-top: 60px;
+}
+
+.value-item {
+  padding: 40px 30px;
+  background: linear-gradient(135deg, var(--secondary-color) 0%, #F0F4FF 100%);
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.value-item:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(74, 108, 247, 0.15);
+}
+
+.value-item i {
+  font-size: 48px;
+  color: var(--primary-color);
+  margin-bottom: 20px;
+}
+
+.value-item h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 10px;
+}
+
+.value-item p {
+  font-size: 16px;
+  color: #666;
+  margin: 0;
+}
+
+/* How It Works Section */
+.how-it-works-section {
+  padding: 100px 0;
+  background: linear-gradient(to bottom, #F5F7FF 0%, var(--white) 100%);
+}
+
+.section-header-about {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.section-header-about h2 {
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 15px;
+}
+
+.section-subtitle {
+  font-size: 20px;
+  color: #666;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+}
+
+.step-card {
+  background: var(--white);
+  padding: 50px 30px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  position: relative;
+  border: 2px solid transparent;
+}
+
+.step-card:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-10px);
+  box-shadow: 0 12px 40px rgba(74, 108, 247, 0.2);
+}
+
+.step-number-large {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--primary-color), #6B8AFF);
+  color: var(--white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 700;
+  box-shadow: 0 6px 20px rgba(74, 108, 247, 0.3);
+}
+
+.step-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--secondary-color) 0%, #F0F4FF 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px auto 30px;
+  color: var(--primary-color);
+  font-size: 36px;
+}
+
+.step-card h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 15px;
+}
+
+.step-card p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #666;
+  margin: 0;
+}
+
+/* Why Section */
+.why-section {
+  padding: 100px 0;
+  background: var(--white);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+}
+
+.feature-card-about {
+  background: linear-gradient(135deg, var(--secondary-color) 0%, #F0F4FF 100%);
+  padding: 40px 30px;
+  border-radius: 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.feature-card-about:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(74, 108, 247, 0.15);
+}
+
+.feature-icon-about {
+  width: 70px;
+  height: 70px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 25px;
+  color: var(--white);
+  font-size: 32px;
+}
+
+.feature-card-about h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 15px;
+}
+
+.feature-card-about p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #666;
+  margin: 0;
+}
+
+/* Stats Section */
+.stats-section-about {
+  padding: 100px 0;
+  background: linear-gradient(135deg, var(--primary-color) 0%, #6B8AFF 100%);
+  color: var(--white);
+}
+
+.stats-section-about .section-header-about h2,
+.stats-section-about .section-subtitle {
+  color: var(--white);
+}
+
+.stats-grid-about {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+}
+
+.stat-card-about {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  padding: 50px 30px;
+  border-radius: 20px;
+  text-align: center;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.stat-card-about:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.stat-number-about {
+  font-size: 64px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #FFD700;
+}
+
+.stat-label-about {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.stat-icon-about {
+  font-size: 40px;
+  opacity: 0.8;
+}
+
+/* Commitment Section */
+.commitment-section {
+  padding: 100px 0;
+  background: var(--white);
+}
+
+.commitment-content {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.commitment-text h2 {
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 25px;
+}
+
+.commitment-text > p {
+  font-size: 18px;
+  line-height: 1.9;
+  color: #555;
+  margin-bottom: 40px;
+}
+
+.commitment-points {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.commitment-point {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  background: var(--secondary-color);
+  border-radius: 12px;
+}
+
+.commitment-point i {
+  color: var(--primary-color);
+  font-size: 24px;
+}
+
+.commitment-point span {
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.commitment-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.visual-card {
+  width: 300px;
+  height: 300px;
+  background: linear-gradient(135deg, var(--primary-color), #6B8AFF);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  box-shadow: 0 20px 60px rgba(74, 108, 247, 0.3);
+}
+
+.visual-card i {
+  font-size: 80px;
+  margin-bottom: 20px;
+}
+
+.visual-card h3 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* CTA Section */
+.cta-section-about {
+  padding: 100px 0;
+  background: linear-gradient(135deg, #F5F7FF 0%, var(--white) 100%);
+}
+
+.cta-content-about {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.cta-content-about h2 {
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 20px;
+}
+
+.cta-content-about p {
+  font-size: 20px;
+  color: #666;
+  margin-bottom: 40px;
+}
+
+.cta-buttons-about {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-cta-primary,
+.btn-cta-secondary {
+  padding: 18px 40px;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-cta-primary {
+  background: var(--primary-color);
+  color: var(--white);
+  box-shadow: 0 6px 25px rgba(74, 108, 247, 0.3);
+}
+
+.btn-cta-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 35px rgba(74, 108, 247, 0.4);
+  background: #3A5CE7;
+}
+
+.btn-cta-secondary {
+  background: var(--white);
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+}
+
+.btn-cta-secondary:hover {
+  transform: translateY(-3px);
+  background: var(--secondary-color);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .steps-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .stats-grid-about {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 968px) {
+  .hero-title {
+    font-size: 48px;
+  }
+
+  .hero-subtitle {
+    font-size: 20px;
+  }
+
+  .mission-values {
+    grid-template-columns: 1fr;
+  }
+
+  .commitment-content {
+    grid-template-columns: 1fr;
+  }
+
+  .section-wrapper {
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-hero {
+    padding: 80px 0 60px;
+  }
+
+  .hero-title {
+    font-size: 36px;
+  }
+
+  .hero-subtitle {
+    font-size: 18px;
+  }
+
+  .mission-section,
+  .how-it-works-section,
+  .why-section,
+  .stats-section-about,
+  .commitment-section,
+  .cta-section-about {
+    padding: 60px 0;
+  }
+
+  .steps-grid,
+  .features-grid,
+  .stats-grid-about {
+    grid-template-columns: 1fr;
+  }
+
+  .section-header-about h2 {
+    font-size: 32px;
+  }
+
+  .cta-buttons-about {
+    flex-direction: column;
+  }
+
+  .btn-cta-primary,
+  .btn-cta-secondary {
+    width: 100%;
+  }
+}

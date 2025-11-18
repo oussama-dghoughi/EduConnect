@@ -1,0 +1,27 @@
+<header class="header">
+  <div class="container">
+    <div class="header-content">
+      <a routerLink="/" class="logo">EduConnect</a>
+      
+      <nav class="nav" [class.menu-open]="isMenuOpen">
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Accueil</a>
+        <a routerLink="/professeurs" routerLinkActive="active">Professeurs</a>
+        <a routerLink="/a-propos" routerLinkActive="active">À propos</a>
+        <a routerLink="/contact" routerLinkActive="active">Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <a routerLink="/favoris" class="favorites-link">
+          <i class="fas fa-star"></i> Favoris
+        </a>
+        <button class="btn-primary btn-connect">Se connecter</button>
+        <button class="menu-toggle" (click)="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+

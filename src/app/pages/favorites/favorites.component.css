@@ -1,0 +1,157 @@
+.favorites-page {
+  padding: 40px 0;
+  min-height: calc(100vh - 80px);
+}
+
+.page-title {
+  font-size: 36px;
+  margin-bottom: 40px;
+  color: var(--text-color);
+  text-align: center;
+}
+
+.no-favorites {
+  text-align: center;
+  padding: 80px 20px;
+  background: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+
+.no-favorites p {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.favorites-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+.teacher-card {
+  background: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: 25px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.teacher-card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-4px);
+}
+
+.teacher-photo {
+  margin-bottom: 15px;
+}
+
+.teacher-photo img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--secondary-color);
+}
+
+.teacher-info h3 {
+  font-size: 20px;
+  margin-bottom: 8px;
+  color: var(--text-color);
+}
+
+.teacher-matiere {
+  color: var(--primary-color);
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.teacher-price {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 10px;
+}
+
+.teacher-rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.stars {
+  display: flex;
+  gap: 2px;
+}
+
+.stars i {
+  color: #FFD700;
+  font-size: 16px;
+  margin-right: 2px;
+}
+
+.stars i.star-empty,
+.stars i.far {
+  color: #E0E0E0;
+}
+
+.stars i.star-half,
+.stars i.fa-star-half-alt {
+  color: #FFD700;
+  opacity: 0.7;
+}
+
+.rating-value {
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.teacher-location {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.teacher-location i {
+  color: var(--primary-color);
+  font-size: 12px;
+}
+
+.teacher-experience {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-view-profile {
+  width: 100%;
+  padding: 12px;
+  font-size: 14px;
+}
+
+.btn-remove {
+  width: 100%;
+  padding: 12px;
+  font-size: 14px;
+}
+
+@media (max-width: 640px) {
+  .favorites-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

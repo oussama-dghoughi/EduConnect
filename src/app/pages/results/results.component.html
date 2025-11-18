@@ -1,0 +1,142 @@
+<div class="results-page">
+  <div class="container">
+    <div class="results-layout">
+      <!-- Colonne gauche : Filtres -->
+      <aside class="filters-sidebar">
+        <h2>Filtres</h2>
+        
+        <div class="filter-group">
+          <label>Recherche</label>
+          <input 
+            type="text" 
+            [(ngModel)]="searchQuery"
+            (keyup.enter)="search()"
+            placeholder="Nom, matière, ville..."
+            class="filter-input"
+          />
+          <button (click)="search()" class="btn-primary" style="width: 100%; margin-top: 10px;">Rechercher</button>
+        </div>
+
+        <div class="filter-group">
+          <label>Matière</label>
+          <select [(ngModel)]="filters.matiere" (change)="onFilterChange()" class="filter-select">
+            <option value="">Toutes les matières</option>
+            <option *ngFor="let matiere of matieres" [value]="matiere">{{ matiere }}</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label>Prix par heure</label>
+          <div class="price-range">
+            <span>{{ prixMinValue }}€</span>
+            <span>{{ prixMaxValue }}€</span>
+          </div>
+          <input 
+            type="range" 
+            [(ngModel)]="prixMinValue"
+            [min]="prixMin"
+            [max]="prixMax"
+            (input)="onPriceChange()"
+            class="price-slider"
+          />
+          <input 
+            type="range" 
+            [(ngModel)]="prixMaxValue"
+            [min]="prixMin"
+            [max]="prixMax"
+            (input)="onPriceChange()"
+            class="price-slider"
+          />
+        </div>
+
+        <div class="filter-group">
+          <label>Ville</label>
+          <select [(ngModel)]="filters.ville" (change)="onFilterChange()" class="filter-select">
+            <option value="">Toutes les villes</option>
+            <option *ngFor="let ville of villes" [value]="ville">{{ ville }}</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label class="checkbox-label">
+            <input 
+              type="checkbox" 
+              [(ngModel)]="filters.coursEnLigne"
+              (change)="onFilterChange()"
+            />
+            <span>Cours en ligne uniquement</span>
+          </label>
+        </div>
+
+        <div class="filter-group">
+          <label>Niveau enseigné</label>
+          <select [(ngModel)]="filters.niveauEnseigne" (change)="onFilterChange()" class="filter-select">
+            <option value="">Tous les niveaux</option>
+            <option *ngFor="let niveau of niveaux" [value]="niveau">{{ niveau }}</option>
+          </select>
+        </div>
+
+        <button (click)="resetFilters()" class="btn-secondary" style="width: 100%; margin-top: 20px;">
+          Réinitialiser les filtres
+        </button>
+      </aside>
+
+      <!-- Colonne droite : Résultats -->
+      <main class="results-main">
+        <div class="results-header">
+          <h2>{{ filteredTeachers.length }} professeur(s) trouvé(s)</h2>
+          
+          <div class="sort-section">
+            <label>Trier par :</label>
+            <select [(ngModel)]="sortOption" (change)="onSortChange()" class="sort-select">
+              <option value="note">Note décroissante</option>
+              <option value="prix-croissant">Prix croissant</option>
+              <option value="prix-decroissant">Prix décroissant</option>
+              <option value="experience">Expérience</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="teachers-grid">
+          <div *ngFor="let teacher of filteredTeachers" class="teacher-card">
+            <div class="teacher-photo">
+              <img [src]="teacher.photo || 'https://i.pravatar.cc/150'" [alt]="teacher.nom" />
+            </div>
+            <div class="teacher-info">
+              <h3>{{ teacher.nom }}</h3>
+              <p class="teacher-matiere">{{ teacher.matiere }}</p>
+              <p class="teacher-price">{{ teacher.prixParHeure }}€/h</p>
+              
+              <div class="teacher-rating">
+                <span class="stars">
+                  <i *ngFor="let star of getStars(teacher.noteMoyenne)" 
+                     [class]="'fas fa-star star-' + star"
+                     [class.far]="star === 'empty'"
+                     [class.fa-star-half-alt]="star === 'half'"></i>
+                </span>
+                <span class="rating-value">{{ teacher.noteMoyenne }}</span>
+              </div>
+              
+              <p class="teacher-location">
+                <i [class]="teacher.coursEnLigne ? 'fas fa-laptop' : 'fas fa-map-marker-alt'"></i>
+                {{ teacher.coursEnLigne ? 'En ligne' : teacher.ville }}
+              </p>
+              
+              <p class="teacher-experience">{{ teacher.anneesExperience }} ans d'expérience</p>
+              
+              <a [routerLink]="['/professeur', teacher.id]" class="btn-primary btn-view-profile">
+                Voir le profil
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="filteredTeachers.length === 0" class="no-results">
+          <p>Aucun professeur trouvé avec ces critères.</p>
+          <button (click)="resetFilters()" class="btn-primary">Réinitialiser les filtres</button>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+

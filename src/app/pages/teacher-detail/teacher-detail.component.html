@@ -1,0 +1,417 @@
+<div class="teacher-detail-page" *ngIf="teacher">
+  <!-- Hero Section Full Width -->
+  <div class="teacher-hero-full">
+    <div class="hero-background-pattern"></div>
+    <div class="hero-content-wrapper">
+      <div class="teacher-hero-content">
+        <div class="teacher-photo-hero">
+          <div class="photo-container">
+            <img [src]="teacher.photo || 'https://i.pravatar.cc/150'" [alt]="teacher.nom" />
+            <div class="verified-badge">
+              <i class="fas fa-check-circle"></i>
+              <span>Vérifié</span>
+            </div>
+          </div>
+          <div class="photo-stats">
+            <div class="stat-mini">
+              <i class="fas fa-star"></i>
+              <span>{{ teacher.noteMoyenne }}</span>
+            </div>
+            <div class="stat-mini">
+              <i class="fas fa-users"></i>
+              <span>{{ teacher.avis?.length || 0 }}+</span>
+            </div>
+            <div class="stat-mini">
+              <i class="fas fa-calendar"></i>
+              <span>{{ teacher.anneesExperience }} ans</span>
+            </div>
+          </div>
+        </div>
+        <div class="teacher-info-hero">
+          <div class="teacher-badges">
+            <span class="badge-matiere">
+              <i class="fas fa-graduation-cap"></i>
+              {{ teacher.matiere }}
+            </span>
+            <span class="badge-type" *ngIf="teacher.coursEnLigne">
+              <i class="fas fa-laptop"></i>
+              Cours en ligne
+            </span>
+            <span class="badge-type" *ngIf="!teacher.coursEnLigne">
+              <i class="fas fa-home"></i>
+              À domicile
+            </span>
+          </div>
+          <h1>{{ teacher.nom }}</h1>
+          <p class="teacher-tagline">Professeur certifié et expérimenté</p>
+          
+          <div class="teacher-rating-display">
+            <div class="rating-main">
+              <span class="stars-large">
+                <i *ngFor="let star of getStars(teacher.noteMoyenne)" 
+                   [class]="'fas fa-star star-' + star"
+                   [class.far]="star === 'empty'"
+                   [class.fa-star-half-alt]="star === 'half'"></i>
+              </span>
+              <span class="rating-number">{{ teacher.noteMoyenne }}/5</span>
+              <span class="rating-count">({{ teacher.avis?.length || 0 }} avis vérifiés)</span>
+            </div>
+          </div>
+
+          <div class="teacher-quick-info">
+            <div class="quick-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <div>
+                <strong>Localisation</strong>
+                <span>{{ teacher.ville }}</span>
+              </div>
+            </div>
+            <div class="quick-item">
+              <i class="fas fa-clock"></i>
+              <div>
+                <strong>Expérience</strong>
+                <span>{{ teacher.anneesExperience }} ans d'enseignement</span>
+              </div>
+            </div>
+            <div class="quick-item">
+              <i class="fas fa-chalkboard-teacher"></i>
+              <div>
+                <strong>Niveaux</strong>
+                <span>{{ teacher.niveauEnseigne }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="teacher-price-hero">
+            <div class="price-main">
+              <span class="price-amount">{{ teacher.prixParHeure }}€</span>
+              <span class="price-period">/heure</span>
+            </div>
+            <div class="price-note">Tarif compétitif • Paiement sécurisé</div>
+          </div>
+
+          <div class="teacher-actions-hero">
+            <button (click)="contactTeacher()" class="btn-hero-primary">
+              <i class="fas fa-envelope"></i>
+              <span>Contacter le professeur</span>
+            </button>
+            <button (click)="toggleFavorite()" [class.active]="isFavorite" class="btn-hero-secondary">
+              <i [class]="isFavorite ? 'fas fa-star' : 'far fa-star'"></i>
+              <span>{{ isFavorite ? 'Dans les favoris' : 'Ajouter aux favoris' }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Statistiques Full Width -->
+  <div class="stats-section-full">
+    <div class="stats-grid-full">
+      <div class="stat-card-full">
+        <div class="stat-icon-full">
+          <i class="fas fa-star"></i>
+        </div>
+        <div class="stat-content-full">
+          <div class="stat-value">{{ teacher.noteMoyenne }}/5</div>
+          <div class="stat-label">Note moyenne</div>
+        </div>
+      </div>
+      <div class="stat-card-full">
+        <div class="stat-icon-full">
+          <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-content-full">
+          <div class="stat-value">{{ teacher.avis?.length || 0 }}+</div>
+          <div class="stat-label">Élèves satisfaits</div>
+        </div>
+      </div>
+      <div class="stat-card-full">
+        <div class="stat-icon-full">
+          <i class="fas fa-calendar-alt"></i>
+        </div>
+        <div class="stat-content-full">
+          <div class="stat-value">{{ teacher.anneesExperience }}</div>
+          <div class="stat-label">Années d'expérience</div>
+        </div>
+      </div>
+      <div class="stat-card-full">
+        <div class="stat-icon-full">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="stat-content-full">
+          <div class="stat-value">100%</div>
+          <div class="stat-label">Taux de réussite</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenu Principal -->
+  <div class="main-content-full">
+    <div class="content-layout">
+      <!-- Colonne principale -->
+      <div class="main-column">
+        <!-- À propos -->
+        <section class="content-section-full">
+          <div class="section-title-full">
+            <i class="fas fa-user-circle"></i>
+            <h2>À propos du professeur</h2>
+          </div>
+          <div class="section-content-full">
+            <p class="description-full">{{ teacher.descriptionComplete || teacher.descriptionCourte }}</p>
+            <div class="highlights-grid">
+              <div class="highlight-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Méthode pédagogique adaptée</span>
+              </div>
+              <div class="highlight-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Suivi personnalisé</span>
+              </div>
+              <div class="highlight-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Résultats garantis</span>
+              </div>
+              <div class="highlight-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Support continu</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Expérience et Qualifications -->
+        <section class="content-section-full">
+          <div class="section-title-full">
+            <i class="fas fa-trophy"></i>
+            <h2>Expérience et Qualifications</h2>
+          </div>
+          <div class="section-content-full">
+            <div class="qualifications-grid">
+              <div class="qualification-card">
+                <div class="qual-icon">
+                  <i class="fas fa-certificate"></i>
+                </div>
+                <h3>Diplômes et Certifications</h3>
+                <ul class="qual-list" *ngIf="teacher.diplomes && teacher.diplomes.length > 0">
+                  <li *ngFor="let diplome of teacher.diplomes">
+                    <i class="fas fa-check"></i>
+                    {{ diplome }}
+                  </li>
+                </ul>
+                <p *ngIf="!teacher.diplomes || teacher.diplomes.length === 0" class="no-data">Diplômes en cours de vérification</p>
+              </div>
+              <div class="qualification-card">
+                <div class="qual-icon">
+                  <i class="fas fa-briefcase"></i>
+                </div>
+                <h3>Parcours Professionnel</h3>
+                <div class="career-timeline">
+                  <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                      <strong>{{ teacher.anneesExperience }} ans d'expérience</strong>
+                      <p>Enseignement de {{ teacher.matiere }} à tous les niveaux</p>
+                    </div>
+                  </div>
+                  <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                      <strong>Spécialisation</strong>
+                      <p>Expert en {{ teacher.matiere }} pour {{ teacher.niveauEnseigne }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="qualification-card">
+                <div class="qual-icon">
+                  <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <h3>Niveaux Enseignés</h3>
+                <div class="levels-display">
+                  <span class="level-badge" *ngFor="let niveau of getNiveaux()">{{ niveau }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Méthode d'Enseignement -->
+        <section class="content-section-full">
+          <div class="section-title-full">
+            <i class="fas fa-lightbulb"></i>
+            <h2>Méthode d'Enseignement</h2>
+          </div>
+          <div class="section-content-full">
+            <div class="method-grid">
+              <div class="method-card">
+                <i class="fas fa-user-friends"></i>
+                <h3>Approche Personnalisée</h3>
+                <p>Chaque élève est unique. J'adapte ma méthode d'enseignement selon les besoins, le rythme et les objectifs de chaque apprenant.</p>
+              </div>
+              <div class="method-card">
+                <i class="fas fa-book-open"></i>
+                <h3>Pédagogie Interactive</h3>
+                <p>Cours dynamiques avec exercices pratiques, mises en situation et supports visuels pour une meilleure compréhension.</p>
+              </div>
+              <div class="method-card">
+                <i class="fas fa-chart-line"></i>
+                <h3>Suivi des Progrès</h3>
+                <p>Évaluation régulière des acquis avec rapports détaillés et ajustements de la méthode selon les résultats obtenus.</p>
+              </div>
+              <div class="method-card">
+                <i class="fas fa-handshake"></i>
+                <h3>Disponibilité et Flexibilité</h3>
+                <p>Horaires flexibles adaptés à votre emploi du temps. Support disponible même en dehors des cours pour vos questions.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Disponibilités -->
+        <section class="content-section-full">
+          <div class="section-title-full">
+            <i class="fas fa-calendar-check"></i>
+            <h2>Disponibilités</h2>
+          </div>
+          <div class="section-content-full">
+            <div class="availability-full">
+              <div class="availability-header">
+                <i class="fas fa-clock"></i>
+                <h3>Horaires de cours</h3>
+              </div>
+              <div class="availability-schedule">
+                <p>{{ teacher.disponibilite }}</p>
+                <div class="availability-note">
+                  <i class="fas fa-info-circle"></i>
+                  <span>Les horaires peuvent être ajustés selon vos besoins. Contactez-moi pour discuter de votre emploi du temps.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Avis des élèves -->
+        <section class="content-section-full" *ngIf="teacher.avis && teacher.avis.length > 0">
+          <div class="section-title-full">
+            <i class="fas fa-comments"></i>
+            <h2>Avis des élèves ({{ teacher.avis.length }})</h2>
+          </div>
+          <div class="section-content-full">
+            <div class="reviews-grid-full">
+              <div *ngFor="let avis of teacher.avis" class="review-card-full">
+                <div class="review-header-full">
+                  <div class="review-author-full">
+                    <div class="review-avatar-full">{{ avis.nomEleve.charAt(0) }}</div>
+                    <div>
+                      <strong>{{ avis.nomEleve }}</strong>
+                      <div class="review-rating-full">
+                        <i *ngFor="let star of getStars(avis.note)" 
+                           [class]="'fas fa-star star-' + star"
+                           [class.far]="star === 'empty'"
+                           [class.fa-star-half-alt]="star === 'half'"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <span class="review-date-full">{{ avis.date }}</span>
+                </div>
+                <p class="review-text-full">{{ avis.commentaire }}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Sidebar -->
+      <aside class="sidebar-column">
+        <!-- Informations pratiques -->
+        <div class="sidebar-card">
+          <h3 class="sidebar-title">
+            <i class="fas fa-info-circle"></i>
+            Informations
+          </h3>
+          <div class="sidebar-info">
+            <div class="sidebar-item">
+              <i class="fas fa-euro-sign"></i>
+              <div>
+                <strong>Tarif horaire</strong>
+                <span>{{ teacher.prixParHeure }}€/heure</span>
+              </div>
+            </div>
+            <div class="sidebar-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <div>
+                <strong>Ville</strong>
+                <span>{{ teacher.ville }}</span>
+              </div>
+            </div>
+            <div class="sidebar-item">
+              <i [class]="teacher.coursEnLigne ? 'fas fa-laptop' : 'fas fa-home'"></i>
+              <div>
+                <strong>Type de cours</strong>
+                <span>{{ teacher.coursEnLigne ? 'En ligne' : 'À domicile' }}</span>
+              </div>
+            </div>
+            <div class="sidebar-item">
+              <i class="fas fa-star"></i>
+              <div>
+                <strong>Note moyenne</strong>
+                <span>{{ teacher.noteMoyenne }}/5</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA Card -->
+        <div class="sidebar-card cta-card">
+          <div class="cta-content">
+            <h3>Intéressé par ce professeur ?</h3>
+            <p>Contactez-le dès maintenant pour discuter de vos besoins</p>
+            <button (click)="contactTeacher()" class="btn-cta-full">
+              <i class="fas fa-envelope"></i>
+              Contacter maintenant
+            </button>
+            <button (click)="toggleFavorite()" [class.active]="isFavorite" class="btn-favorite-full">
+              <i [class]="isFavorite ? 'fas fa-star' : 'far fa-star'"></i>
+              {{ isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris' }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Garanties -->
+        <div class="sidebar-card guarantees-card">
+          <h3 class="sidebar-title">
+            <i class="fas fa-shield-alt"></i>
+            Garanties
+          </h3>
+          <ul class="guarantees-list">
+            <li>
+              <i class="fas fa-check-circle"></i>
+              <span>Professeur vérifié</span>
+            </li>
+            <li>
+              <i class="fas fa-check-circle"></i>
+              <span>Paiement sécurisé</span>
+            </li>
+            <li>
+              <i class="fas fa-check-circle"></i>
+              <span>Support client 7j/7</span>
+            </li>
+            <li>
+              <i class="fas fa-check-circle"></i>
+              <span>Satisfaction garantie</span>
+            </li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!teacher" class="loading-full">
+  <div class="loading-spinner-full">
+    <i class="fas fa-spinner fa-spin"></i>
+  </div>
+  <p>Chargement du profil...</p>
+</div>

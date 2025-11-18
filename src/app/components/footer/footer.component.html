@@ -1,0 +1,92 @@
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <!-- Section Logo et Description -->
+      <div class="footer-section">
+        <h3 class="footer-logo">EduConnect</h3>
+        <p class="footer-description">
+          La plateforme de référence pour trouver votre professeur particulier. 
+          Cours en ligne ou à domicile, trouvez le professeur idéal en quelques clics.
+        </p>
+        <div class="social-links">
+          <a href="#" class="social-link" aria-label="Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="Twitter">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="#" class="social-link" aria-label="LinkedIn">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Section Liens rapides -->
+      <div class="footer-section">
+        <h4 class="footer-title">Liens rapides</h4>
+        <ul class="footer-links">
+          <li><a routerLink="/">Accueil</a></li>
+          <li><a routerLink="/professeurs">Professeurs</a></li>
+          <li><a routerLink="/favoris">Mes favoris</a></li>
+          <li><a routerLink="/a-propos">À propos</a></li>
+          <li><a routerLink="/contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Section Matières -->
+      <div class="footer-section">
+        <h4 class="footer-title">Matières</h4>
+        <ul class="footer-links">
+          <li><a routerLink="/professeurs" [queryParams]="{matiere: 'Maths'}">Maths</a></li>
+          <li><a routerLink="/professeurs" [queryParams]="{matiere: 'Anglais'}">Anglais</a></li>
+          <li><a routerLink="/professeurs" [queryParams]="{matiere: 'Français'}">Français</a></li>
+          <li><a routerLink="/professeurs" [queryParams]="{matiere: 'Informatique'}">Informatique</a></li>
+          <li><a routerLink="/professeurs" [queryParams]="{matiere: 'Physique-Chimie'}">Physique-Chimie</a></li>
+          <li><a routerLink="/professeurs" [queryParams]="{matiere: 'SVT'}">SVT</a></li>
+          <li><a routerLink="/professeurs" [queryParams]="{matiere: 'Économie'}">Économie</a></li>
+          <li><a routerLink="/professeurs" [queryParams]="{matiere: 'Histoire-Géographie'}">Histoire-Géo</a></li>
+          <li><a routerLink="/professeurs" [queryParams]="{matiere: 'Espagnol'}">Espagnol</a></li>
+          <li><a routerLink="/professeurs" [queryParams]="{matiere: 'Allemand'}">Allemand</a></li>
+          <li><a routerLink="/professeurs" [queryParams]="{matiere: 'Philosophie'}">Philosophie</a></li>
+        </ul>
+      </div>
+
+      <!-- Section Contact -->
+      <div class="footer-section">
+        <h4 class="footer-title">Contact</h4>
+        <ul class="footer-contact">
+          <li>
+            <i class="fas fa-envelope"></i>
+            <span>contact&#64;educonnect.fr</span>
+          </li>
+          <li>
+            <i class="fas fa-phone"></i>
+            <span>01 23 45 67 89</span>
+          </li>
+          <li>
+            <i class="fas fa-map-marker-alt"></i>
+            <span>123 Rue de l'Éducation<br>75001 Paris, France</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+      <div class="footer-bottom-content">
+        <p>&copy; {{ currentYear }} EduConnect. Tous droits réservés.</p>
+        <div class="footer-legal">
+          <a routerLink="/a-propos">Mentions légales</a>
+          <span>|</span>
+          <a href="#">Politique de confidentialité</a>
+          <span>|</span>
+          <a href="#">CGU</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
