@@ -1,0 +1,144 @@
+<div class="auth-page">
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="auth-header">
+        <a routerLink="/" class="logo-link">
+          <i class="fas fa-graduation-cap"></i>
+          <span>EduConnect</span>
+        </a>
+        <h1>Inscription</h1>
+        <p>Créez votre compte et commencez votre parcours d'apprentissage</p>
+      </div>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
+        <div class="form-group">
+          <label for="fullName">
+            <i class="fas fa-user"></i>
+            Nom complet
+          </label>
+          <input
+            type="text"
+            id="fullName"
+            formControlName="fullName"
+            placeholder="Jean Dupont"
+            [class.error]="fullName?.invalid && fullName?.touched"
+          />
+          <div class="error-message" *ngIf="fullName?.invalid && fullName?.touched">
+            <span *ngIf="fullName?.errors?.['required']">Le nom complet est requis</span>
+            <span *ngIf="fullName?.errors?.['minlength']">Le nom doit contenir au moins 3 caractères</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">
+            <i class="fas fa-envelope"></i>
+            Adresse email
+          </label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            placeholder="votre@email.com"
+            [class.error]="email?.invalid && email?.touched"
+          />
+          <div class="error-message" *ngIf="email?.invalid && email?.touched">
+            <span *ngIf="email?.errors?.['required']">L'email est requis</span>
+            <span *ngIf="email?.errors?.['email']">L'email n'est pas valide</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">
+            <i class="fas fa-phone"></i>
+            Téléphone <span class="optional">(optionnel)</span>
+          </label>
+          <input
+            type="tel"
+            id="phone"
+            formControlName="phone"
+            placeholder="+33 6 12 34 56 78"
+            [class.error]="phone?.invalid && phone?.touched"
+          />
+          <div class="error-message" *ngIf="phone?.invalid && phone?.touched">
+            <span *ngIf="phone?.errors?.['invalidPhone']">Le numéro de téléphone n'est pas valide</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">
+            <i class="fas fa-lock"></i>
+            Mot de passe
+          </label>
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            placeholder="••••••••"
+            [class.error]="password?.invalid && password?.touched"
+          />
+          <div class="error-message" *ngIf="password?.invalid && password?.touched">
+            <span *ngIf="password?.errors?.['required']">Le mot de passe est requis</span>
+            <span *ngIf="password?.errors?.['minlength']">Le mot de passe doit contenir au moins 8 caractères</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">
+            <i class="fas fa-lock"></i>
+            Confirmer le mot de passe
+          </label>
+          <input
+            type="password"
+            id="confirmPassword"
+            formControlName="confirmPassword"
+            placeholder="••••••••"
+            [class.error]="passwordMismatch || (confirmPassword?.invalid && confirmPassword?.touched)"
+          />
+          <div class="error-message" *ngIf="passwordMismatch">
+            Les mots de passe ne correspondent pas
+          </div>
+          <div class="error-message" *ngIf="confirmPassword?.invalid && confirmPassword?.touched && !passwordMismatch">
+            <span *ngIf="confirmPassword?.errors?.['required']">La confirmation du mot de passe est requise</span>
+          </div>
+        </div>
+
+        <div class="error-message global-error" *ngIf="errorMessage">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ errorMessage }}
+        </div>
+
+        <button type="submit" class="btn-primary btn-submit" [disabled]="isLoading">
+          <span *ngIf="!isLoading">
+            <i class="fas fa-user-plus"></i>
+            Créer mon compte
+          </span>
+          <span *ngIf="isLoading">
+            <i class="fas fa-spinner fa-spin"></i>
+            Inscription en cours...
+          </span>
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        <p>Vous avez déjà un compte ? <a routerLink="/connexion">Se connecter</a></p>
+        <p>Vous êtes professeur ? <a routerLink="/professeur/inscription">Inscription professeur</a></p>
+      </div>
+    </div>
+
+    <div class="auth-image">
+      <div class="image-content">
+        <div class="floating-icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <div class="floating-icon">
+          <i class="fas fa-star"></i>
+        </div>
+        <div class="floating-icon">
+          <i class="fas fa-trophy"></i>
+        </div>
+        <h2>Rejoignez EduConnect</h2>
+        <p>Accédez à une communauté de professeurs qualifiés et commencez votre apprentissage dès aujourd'hui</p>
+      </div>
+    </div>
+  </div>
+</div>

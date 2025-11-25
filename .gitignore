@@ -41,3 +41,13 @@ testem.log
 .DS_Store
 Thumbs.db
 
+# Backend (Symfony)
+backend/.env.local
+backend/.env.local.php
+backend/.env.*.local
+backend/var/
+backend/vendor/
+backend/public/bundles/
+backend/config/secrets/prod/prod.decrypt.private.php
+backend/data.db
+

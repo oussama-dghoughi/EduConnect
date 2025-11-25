@@ -14,7 +14,60 @@
         <a routerLink="/favoris" class="favorites-link">
           <i class="fas fa-star"></i> Favoris
         </a>
-        <button class="btn-primary btn-connect">Se connecter</button>
+        
+        <div class="auth-section" *ngIf="isAuthenticated && user">
+          <div class="user-menu">
+            <div class="user-info">
+              <i class="fas fa-user-circle"></i>
+              <span class="user-name">{{ user.fullName }}</span>
+            </div>
+            <div class="user-actions">
+              <a routerLink="/professeur/profil" class="btn-link" *ngIf="isTeacher() && !isAdmin()" title="Mon espace professeur">
+                <i class="fas fa-user-tie"></i>
+              </a>
+              <a routerLink="/admin" class="btn-link" *ngIf="isAdmin()" title="Back office">
+                <i class="fas fa-cog"></i>
+              </a>
+              <button class="btn-logout" (click)="logout()" title="Déconnexion">
+                <i class="fas fa-sign-out-alt"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="auth-section" *ngIf="!isAuthenticated">
+          <div class="auth-buttons">
+            <div class="auth-dropdown">
+              <button class="btn-secondary btn-connect" (click)="toggleConnexionMenu()" type="button">
+                <i class="fas fa-sign-in-alt"></i> Connexion
+                <i class="fas fa-chevron-down" [class.rotated]="isConnexionOpen"></i>
+              </button>
+              <div class="dropdown-menu" [class.show]="isConnexionOpen" (click)="$event.stopPropagation()">
+                <a routerLink="/connexion" (click)="closeMenus()">
+                  <i class="fas fa-user"></i> Connexion client
+                </a>
+                <a routerLink="/professeur/connexion" (click)="closeMenus()">
+                  <i class="fas fa-chalkboard-teacher"></i> Connexion professeur
+                </a>
+              </div>
+            </div>
+            <div class="auth-dropdown">
+              <button class="btn-primary btn-register" (click)="toggleInscriptionMenu()" type="button">
+                <i class="fas fa-user-plus"></i> Inscription
+                <i class="fas fa-chevron-down" [class.rotated]="isInscriptionOpen"></i>
+              </button>
+              <div class="dropdown-menu" [class.show]="isInscriptionOpen" (click)="$event.stopPropagation()">
+                <a routerLink="/inscription" (click)="closeMenus()">
+                  <i class="fas fa-user"></i> Inscription client
+                </a>
+                <a routerLink="/professeur/inscription" (click)="closeMenus()">
+                  <i class="fas fa-chalkboard-teacher"></i> Inscription professeur
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
         <button class="menu-toggle" (click)="toggleMenu()">
           <span></span>
           <span></span>

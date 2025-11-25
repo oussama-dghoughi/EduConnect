@@ -1,0 +1,80 @@
+<div class="profile-view-page">
+  <div *ngIf="isLoading" class="loading">
+    <i class="fas fa-spinner fa-spin"></i> Chargement...
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+  </div>
+
+  <div *ngIf="profile && !isLoading" class="profile-container">
+    <div class="profile-header">
+      <div class="profile-actions">
+        <a routerLink="/professeur/profil/modifier" class="btn-primary">
+          <i class="fas fa-edit"></i> Modifier
+        </a>
+      </div>
+      <h1>Mon profil professeur</h1>
+      <span [class]="'statut-badge ' + getStatutClass(profile.statut)">
+        {{ getStatutLabel(profile.statut) }}
+      </span>
+    </div>
+
+    <div class="profile-content">
+      <div class="profile-sidebar">
+        <div class="profile-photo">
+          <img [src]="profile.photo || 'https://i.pravatar.cc/150'" [alt]="profile.nom" />
+        </div>
+        <div class="profile-info-card">
+          <h3><i class="fas fa-user"></i> {{ profile.nom }}</h3>
+          <p><i class="fas fa-book"></i> {{ profile.matiere }}</p>
+          <p><i class="fas fa-graduation-cap"></i> {{ profile.niveauEnseigne }}</p>
+          <p><i class="fas fa-euro-sign"></i> {{ profile.prixParHeure }}€/heure</p>
+          <p><i class="fas fa-map-marker-alt"></i> {{ profile.ville }}</p>
+          <p *ngIf="profile.coursEnLigne">
+            <i class="fas fa-laptop"></i> Cours en ligne disponible
+          </p>
+          <p><i class="fas fa-calendar-alt"></i> {{ profile.anneesExperience }} ans d'expérience</p>
+          <p *ngIf="getDisponibilite()">
+            <i class="fas fa-clock"></i> {{ getDisponibilite() }}
+          </p>
+        </div>
+      </div>
+
+      <div class="profile-main">
+        <div class="profile-section">
+          <h2>Description courte</h2>
+          <p>{{ profile.descriptionCourte }}</p>
+        </div>
+
+        <div class="profile-section" *ngIf="profile.descriptionComplete">
+          <h2>Description complète</h2>
+          <p>{{ profile.descriptionComplete }}</p>
+        </div>
+
+        <div class="profile-section" *ngIf="profile.diplomes && profile.diplomes.length > 0">
+          <h2>Diplômes et qualifications</h2>
+          <ul class="diplomes-list">
+            <li *ngFor="let diplome of profile.diplomes">
+              <i class="fas fa-certificate"></i> {{ diplome }}
+            </li>
+          </ul>
+        </div>
+
+        <div class="profile-section">
+          <h2>Informations du profil</h2>
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="info-label">Date de création</span>
+              <span class="info-value">{{ profile.createdAt | date:'dd/MM/yyyy' }}</span>
+            </div>
+            <div class="info-item" *ngIf="profile.updatedAt">
+              <span class="info-label">Dernière modification</span>
+              <span class="info-value">{{ profile.updatedAt | date:'dd/MM/yyyy' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

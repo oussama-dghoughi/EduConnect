@@ -1,0 +1,54 @@
+<div class="admin-users">
+  <div class="page-header">
+    <h1><i class="fas fa-users"></i> Gestion des utilisateurs</h1>
+    <a routerLink="/admin" class="btn-back">
+      <i class="fas fa-arrow-left"></i> Retour au tableau de bord
+    </a>
+  </div>
+
+  <div *ngIf="isLoading" class="loading">
+    <i class="fas fa-spinner fa-spin"></i> Chargement...
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!isLoading && users.length === 0" class="empty-state">
+    <i class="fas fa-inbox"></i>
+    <p>Aucun utilisateur trouvé</p>
+  </div>
+
+  <div *ngIf="!isLoading && users.length > 0" class="users-list">
+    <div *ngFor="let user of users" class="user-card">
+      <div class="user-info">
+        <div class="user-header">
+          <h3>{{ user.fullName }}</h3>
+          <span class="user-role" *ngFor="let role of user.roles">
+            {{ role }}
+          </span>
+        </div>
+        <div class="user-details">
+          <p><i class="fas fa-envelope"></i> {{ user.email }}</p>
+          <p class="date"><i class="fas fa-calendar"></i> Inscrit le {{ user.createdAt | date:'dd/MM/yyyy' }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!isLoading && totalPages > 1" class="pagination">
+    <button
+      (click)="changePage(currentPage - 1)"
+      [disabled]="currentPage === 1"
+      class="page-btn">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <span class="page-info">Page {{ currentPage }} sur {{ totalPages }}</span>
+    <button
+      (click)="changePage(currentPage + 1)"
+      [disabled]="currentPage === totalPages"
+      class="page-btn">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+</div>

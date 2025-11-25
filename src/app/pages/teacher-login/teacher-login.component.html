@@ -1,0 +1,97 @@
+<div class="auth-page">
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="auth-header">
+        <a routerLink="/" class="logo-link">
+          <i class="fas fa-graduation-cap"></i>
+          <span>EduConnect</span>
+        </a>
+        <h1>Connexion Professeur</h1>
+        <p>Connectez-vous à votre compte professeur</p>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+        <div class="form-group">
+          <label for="email">
+            <i class="fas fa-envelope"></i>
+            Adresse email
+          </label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            placeholder="votre@email.com"
+            [class.error]="email?.invalid && email?.touched"
+          />
+          <div class="error-message" *ngIf="email?.invalid && email?.touched">
+            <span *ngIf="email?.errors?.['required']">L'email est requis</span>
+            <span *ngIf="email?.errors?.['email']">L'email n'est pas valide</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">
+            <i class="fas fa-lock"></i>
+            Mot de passe
+          </label>
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            placeholder="••••••••"
+            [class.error]="password?.invalid && password?.touched"
+          />
+          <div class="error-message" *ngIf="password?.invalid && password?.touched">
+            <span *ngIf="password?.errors?.['required']">Le mot de passe est requis</span>
+            <span *ngIf="password?.errors?.['minlength']">Le mot de passe doit contenir au moins 6 caractères</span>
+          </div>
+        </div>
+
+        <div class="form-options">
+          <label class="checkbox-label">
+            <input type="checkbox" />
+            <span>Se souvenir de moi</span>
+          </label>
+          <a href="#" class="forgot-password">Mot de passe oublié ?</a>
+        </div>
+
+        <div class="error-message global-error" *ngIf="errorMessage">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ errorMessage }}
+        </div>
+
+        <button type="submit" class="btn-primary btn-submit" [disabled]="isLoading">
+          <span *ngIf="!isLoading">
+            <i class="fas fa-sign-in-alt"></i>
+            Se connecter
+          </span>
+          <span *ngIf="isLoading">
+            <i class="fas fa-spinner fa-spin"></i>
+            Connexion en cours...
+          </span>
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        <p>Vous n'avez pas de compte ? <a routerLink="/professeur/inscription">Créer un compte professeur</a></p>
+        <p>Vous êtes un client ? <a routerLink="/connexion">Connexion client</a></p>
+      </div>
+    </div>
+
+    <div class="auth-image">
+      <div class="image-content">
+        <div class="floating-icon">
+          <i class="fas fa-book-open"></i>
+        </div>
+        <div class="floating-icon">
+          <i class="fas fa-chalkboard-teacher"></i>
+        </div>
+        <div class="floating-icon">
+          <i class="fas fa-graduation-cap"></i>
+        </div>
+        <h2>Bienvenue sur EduConnect</h2>
+        <p>Trouvez le professeur parfait pour vous accompagner dans votre apprentissage</p>
+      </div>
+    </div>
+  </div>
+</div>

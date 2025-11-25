@@ -1,0 +1,222 @@
+<div class="create-profile-page">
+  <div class="profile-container">
+    <div class="profile-header">
+      <h1><i class="fas fa-edit"></i> Modifier mon profil professeur</h1>
+      <p>Modifiez les informations de votre profil</p>
+    </div>
+
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
+      <div class="form-section">
+        <h2>Informations personnelles</h2>
+        
+        <div class="form-group">
+          <label for="nom">
+            <i class="fas fa-user"></i> Nom complet *
+          </label>
+          <input
+            type="text"
+            id="nom"
+            formControlName="nom"
+            placeholder="Votre nom complet"
+            [class.error]="f['nom'].invalid && f['nom'].touched"
+          />
+          <div class="error-message" *ngIf="f['nom'].invalid && f['nom'].touched">
+            Le nom est requis (minimum 3 caractères)
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="photo">
+            <i class="fas fa-image"></i> Photo (URL)
+          </label>
+          <input
+            type="url"
+            id="photo"
+            formControlName="photo"
+            placeholder="https://exemple.com/photo.jpg"
+          />
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h2>Informations d'enseignement</h2>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="matiere">
+              <i class="fas fa-book"></i> Matière enseignée *
+            </label>
+            <select id="matiere" formControlName="matiere" [class.error]="f['matiere'].invalid && f['matiere'].touched">
+              <option value="">Sélectionner une matière</option>
+              <option *ngFor="let matiere of matieres" [value]="matiere">{{ matiere }}</option>
+            </select>
+            <div class="error-message" *ngIf="f['matiere'].invalid && f['matiere'].touched">
+              La matière est requise
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="niveauEnseigne">
+              <i class="fas fa-graduation-cap"></i> Niveau enseigné *
+            </label>
+            <select id="niveauEnseigne" formControlName="niveauEnseigne" [class.error]="f['niveauEnseigne'].invalid && f['niveauEnseigne'].touched">
+              <option value="">Sélectionner un niveau</option>
+              <option *ngFor="let niveau of niveaux" [value]="niveau">{{ niveau }}</option>
+            </select>
+            <div class="error-message" *ngIf="f['niveauEnseigne'].invalid && f['niveauEnseigne'].touched">
+              Le niveau est requis
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="prixParHeure">
+              <i class="fas fa-euro-sign"></i> Prix par heure (€) *
+            </label>
+            <input
+              type="number"
+              id="prixParHeure"
+              formControlName="prixParHeure"
+              placeholder="25"
+              min="1"
+              [class.error]="f['prixParHeure'].invalid && f['prixParHeure'].touched"
+            />
+            <div class="error-message" *ngIf="f['prixParHeure'].invalid && f['prixParHeure'].touched">
+              Le prix est requis (minimum 1€)
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="anneesExperience">
+              <i class="fas fa-calendar-alt"></i> Années d'expérience *
+            </label>
+            <input
+              type="number"
+              id="anneesExperience"
+              formControlName="anneesExperience"
+              placeholder="5"
+              min="0"
+              [class.error]="f['anneesExperience'].invalid && f['anneesExperience'].touched"
+            />
+            <div class="error-message" *ngIf="f['anneesExperience'].invalid && f['anneesExperience'].touched">
+              Les années d'expérience sont requises
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="ville">
+              <i class="fas fa-map-marker-alt"></i> Ville *
+            </label>
+            <input
+              type="text"
+              id="ville"
+              formControlName="ville"
+              placeholder="Paris"
+              [class.error]="f['ville'].invalid && f['ville'].touched"
+            />
+            <div class="error-message" *ngIf="f['ville'].invalid && f['ville'].touched">
+              La ville est requise
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="disponibilite">
+              <i class="fas fa-clock"></i> Disponibilité
+            </label>
+            <select id="disponibilite" formControlName="disponibilite">
+              <option value="">Sélectionner votre disponibilité</option>
+              <option *ngFor="let dispo of disponibilites" [value]="dispo">{{ dispo }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input type="checkbox" formControlName="coursEnLigne" />
+              <span><i class="fas fa-laptop"></i> Je propose des cours en ligne</span>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input type="checkbox" formControlName="coursADomicile" />
+              <span><i class="fas fa-home"></i> Je propose des cours à domicile</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h2>Description</h2>
+
+        <div class="form-group">
+          <label for="descriptionCourte">
+            <i class="fas fa-align-left"></i> Description courte * (minimum 20 caractères)
+          </label>
+          <textarea
+            id="descriptionCourte"
+            formControlName="descriptionCourte"
+            rows="3"
+            placeholder="Une brève description de votre méthode d'enseignement..."
+            [class.error]="f['descriptionCourte'].invalid && f['descriptionCourte'].touched"
+          ></textarea>
+          <div class="error-message" *ngIf="f['descriptionCourte'].invalid && f['descriptionCourte'].touched">
+            La description courte est requise (minimum 20 caractères)
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="descriptionComplete">
+            <i class="fas fa-file-alt"></i> Description complète (optionnel)
+          </label>
+          <textarea
+            id="descriptionComplete"
+            formControlName="descriptionComplete"
+            rows="5"
+            placeholder="Une description détaillée de votre parcours, méthode d'enseignement, etc."
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h2>Diplômes et qualifications</h2>
+
+        <div class="form-group">
+          <label for="diplomes">
+            <i class="fas fa-certificate"></i> Diplômes (un par ligne)
+          </label>
+          <textarea
+            id="diplomes"
+            formControlName="diplomes"
+            rows="4"
+            placeholder="Master en Mathématiques&#10;CAPES Mathématiques&#10;..."
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="error-message global-error" *ngIf="errorMessage">
+        <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+      </div>
+
+      <div class="success-message" *ngIf="successMessage">
+        <i class="fas fa-check-circle"></i> {{ successMessage }}
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-primary" [disabled]="isLoading">
+          <span *ngIf="!isLoading">
+            <i class="fas fa-save"></i> Enregistrer les modifications
+          </span>
+          <span *ngIf="isLoading">
+            <i class="fas fa-spinner fa-spin"></i> Enregistrement en cours...
+          </span>
+        </button>
+        <a routerLink="/" class="btn-secondary">Annuler</a>
+      </div>
+    </form>
+  </div>
+</div>

@@ -44,8 +44,14 @@ export class ResultsComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.searchQuery = params['q'] || '';
       this.filters.matiere = params['matiere'] || '';
+      this.filters.ville = params['ville'] || '';
       this.search();
     });
+    
+    // Charger tous les professeurs au démarrage si pas de paramètres
+    if (!this.searchQuery && !this.filters.matiere && !this.filters.ville) {
+      this.search();
+    }
   }
 
   search() {

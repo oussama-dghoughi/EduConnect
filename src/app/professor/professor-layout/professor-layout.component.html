@@ -1,0 +1,26 @@
+<div class="professor-layout">
+  <aside class="professor-sidebar">
+    <div class="sidebar-header">
+      <h2><i class="fas fa-user-tie"></i> Mon Espace</h2>
+    </div>
+    <nav class="sidebar-nav">
+      <a routerLink="/professeur/profil" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <i class="fas fa-user"></i> Mon profil
+      </a>
+      <a routerLink="/professeur/profil/nouveau" routerLinkActive="active" *ngIf="!authService.getUser()">
+        <i class="fas fa-user-plus"></i> Créer mon profil
+      </a>
+      <a routerLink="/professeur/profil/modifier" routerLinkActive="active">
+        <i class="fas fa-edit"></i> Modifier mon profil
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <a routerLink="/" class="back-link">
+        <i class="fas fa-arrow-left"></i> Retour au site
+      </a>
+    </div>
+  </aside>
+  <main class="professor-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

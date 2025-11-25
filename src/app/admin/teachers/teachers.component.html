@@ -1,0 +1,103 @@
+<div class="admin-teachers">
+  <div class="page-header">
+    <h1><i class="fas fa-chalkboard-teacher"></i> Gestion des professeurs</h1>
+    <a routerLink="/admin" class="btn-back">
+      <i class="fas fa-arrow-left"></i> Retour au tableau de bord
+    </a>
+  </div>
+
+  <div class="filters">
+    <button
+      (click)="onStatutChange('')"
+      [class.active]="!selectedStatut"
+      class="filter-btn">
+      Tous ({{ total }})
+    </button>
+    <button
+      (click)="onStatutChange('pending')"
+      [class.active]="selectedStatut === 'pending'"
+      class="filter-btn">
+      En attente
+    </button>
+    <button
+      (click)="onStatutChange('approved')"
+      [class.active]="selectedStatut === 'approved'"
+      class="filter-btn">
+      Approuvés
+    </button>
+    <button
+      (click)="onStatutChange('rejected')"
+      [class.active]="selectedStatut === 'rejected'"
+      class="filter-btn">
+      Rejetés
+    </button>
+  </div>
+
+  <div *ngIf="isLoading" class="loading">
+    <i class="fas fa-spinner fa-spin"></i> Chargement...
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!isLoading && teachers.length === 0" class="empty-state">
+    <i class="fas fa-inbox"></i>
+    <p>Aucun professeur trouvé</p>
+  </div>
+
+  <div *ngIf="!isLoading && teachers.length > 0" class="teachers-list">
+    <div *ngFor="let teacher of teachers" class="teacher-card">
+      <div class="teacher-info">
+        <div class="teacher-header">
+          <h3>{{ teacher.nom }}</h3>
+          <span [class]="'statut-badge ' + getStatutClass(teacher.statut)">
+            {{ getStatutLabel(teacher.statut) }}
+          </span>
+        </div>
+        <div class="teacher-details">
+          <p><i class="fas fa-book"></i> {{ teacher.matiere }}</p>
+          <p><i class="fas fa-map-marker-alt"></i> {{ teacher.ville }}</p>
+          <p><i class="fas fa-envelope"></i> {{ teacher.user.email }}</p>
+          <p><i class="fas fa-user"></i> {{ teacher.user.fullName }}</p>
+          <p class="date"><i class="fas fa-calendar"></i> Créé le {{ teacher.createdAt | date:'dd/MM/yyyy' }}</p>
+        </div>
+      </div>
+      <div class="teacher-actions">
+        <button
+          *ngIf="teacher.statut === 'pending'"
+          (click)="approveTeacher(teacher.id)"
+          class="btn-approve">
+          <i class="fas fa-check"></i> Approuver
+        </button>
+        <button
+          *ngIf="teacher.statut === 'pending'"
+          (click)="rejectTeacher(teacher.id)"
+          class="btn-reject">
+          <i class="fas fa-times"></i> Rejeter
+        </button>
+        <button
+          (click)="deleteTeacher(teacher.id)"
+          class="btn-delete">
+          <i class="fas fa-trash"></i> Supprimer
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!isLoading && totalPages > 1" class="pagination">
+    <button
+      (click)="changePage(currentPage - 1)"
+      [disabled]="currentPage === 1"
+      class="page-btn">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <span class="page-info">Page {{ currentPage }} sur {{ totalPages }}</span>
+    <button
+      (click)="changePage(currentPage + 1)"
+      [disabled]="currentPage === totalPages"
+      class="page-btn">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+</div>

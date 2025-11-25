@@ -1,0 +1,231 @@
+@startuml EduConnect - Diagramme de Séquence Complet
+
+!theme plain
+skinparam sequenceMessageAlign center
+skinparam roundcorner 20
+skinparam maxmessagesize 60
+
+title Diagramme de Séquence - EduConnect\nInteractions Complètes du Système
+
+actor "Client" as Client
+actor "Professeur" as Teacher
+actor "Admin" as Admin
+
+box "Frontend Angular" #LightBlue
+  participant "Interface\nUtilisateur" as UI
+  participant "Service\nAuth" as AuthService
+  participant "Service\nTeacher" as TeacherService
+  participant "Service\nFavorites" as FavService
+end box
+
+box "Backend Symfony" #LightGreen
+  participant "AuthController" as AuthCtrl
+  participant "TeacherController" as TeacherCtrl
+  participant "ProfessorController" as ProfCtrl
+  participant "AdminController" as AdminCtrl
+  participant "JWT Service" as JWT
+end box
+
+box "Base de Données\nPostgreSQL" #LightYellow
+  database "User\nTeacher\nFavorite\nReview" as DB
+end box
+
+== SCÉNARIO 1 : Inscription et Connexion Client ==
+
+Client -> UI: Accède à /inscription
+UI -> Client: Affiche formulaire d'inscription
+Client -> UI: Remplit formulaire (nom, email, password)
+UI -> AuthService: register(userData)
+AuthService -> AuthCtrl: POST /api/auth/register
+AuthCtrl -> DB: Vérifie email unique
+DB --> AuthCtrl: Email disponible
+AuthCtrl -> DB: Hash password + Crée User
+DB --> AuthCtrl: User créé (id, email, roles)
+AuthCtrl -> JWT: Génère token JWT
+JWT --> AuthCtrl: Token
+AuthCtrl --> AuthService: {token, user}
+AuthService -> UI: Sauvegarde token + user (localStorage)
+UI -> Client: Redirection vers /professeurs
+
+Client -> UI: Accède à /connexion
+UI -> Client: Affiche formulaire de connexion
+Client -> UI: Saisit email + password
+UI -> AuthService: login(credentials)
+AuthService -> AuthCtrl: POST /api/auth/login
+AuthCtrl -> DB: Recherche User par email
+DB --> AuthCtrl: User trouvé
+AuthCtrl -> DB: Vérifie password (password_verify)
+DB --> AuthCtrl: Password valide
+AuthCtrl -> JWT: Génère token JWT
+JWT --> AuthCtrl: Token
+AuthCtrl --> AuthService: {token, user, roles}
+AuthService -> UI: Sauvegarde token + user
+UI -> Client: Redirection selon rôle
+
+== SCÉNARIO 2 : Inscription Professeur ==
+
+Teacher -> UI: Accède à /professeur/inscription
+UI -> Teacher: Affiche formulaire complet
+Teacher -> UI: Remplit toutes les sections\n(compte + profil professeur)
+UI -> AuthService: registerTeacher(teacherData)
+AuthService -> AuthCtrl: POST /api/auth/register-teacher
+AuthCtrl -> DB: Vérifie email unique
+DB --> AuthCtrl: Email disponible
+AuthCtrl -> DB: Crée User (ROLE_TEACHER)
+DB --> AuthCtrl: User créé
+AuthCtrl -> DB: Crée Teacher (statut: pending)
+DB --> AuthCtrl: Teacher créé
+AuthCtrl -> JWT: Génère token JWT
+JWT --> AuthCtrl: Token
+AuthCtrl --> AuthService: {token, user, teacher}
+AuthService -> UI: Sauvegarde token + user
+UI -> Teacher: Redirection vers /professeur/profil
+
+== SCÉNARIO 3 : Recherche et Filtrage de Professeurs ==
+
+Client -> UI: Accède à /professeurs
+UI -> TeacherService: getTeachers()
+TeacherService -> TeacherCtrl: GET /api/teachers
+TeacherCtrl -> DB: SELECT * FROM teacher\nWHERE statut = 'approved'
+DB --> TeacherCtrl: Liste des professeurs
+TeacherCtrl --> TeacherService: {data: [...], total, page, limit}
+TeacherService -> UI: Retourne liste formatée
+UI -> Client: Affiche grille de professeurs
+
+Client -> UI: Applique filtres (matière, ville, prix)
+UI -> TeacherService: searchTeachers(query, filters, sort)
+TeacherService -> TeacherCtrl: GET /api/teachers?matiere=Maths&ville=Paris
+TeacherCtrl -> DB: SELECT * FROM teacher\nWHERE statut='approved'\nAND matiere='Maths'\nAND ville='Paris'
+DB --> TeacherCtrl: Résultats filtrés
+TeacherCtrl --> TeacherService: {data: [...], total}
+TeacherService -> UI: Filtre par prix côté client
+UI -> Client: Affiche résultats filtrés
+
+Client -> UI: Clique sur un professeur
+UI -> TeacherService: getTeacherById(id)
+TeacherService -> TeacherCtrl: GET /api/teachers/{id}
+TeacherCtrl -> DB: SELECT * FROM teacher WHERE id = :id\nAND statut = 'approved'
+DB --> TeacherCtrl: Détails du professeur
+TeacherCtrl --> TeacherService: {id, nom, matiere, ...}
+TeacherService -> UI: Retourne détails complets
+UI -> Client: Affiche fiche détail professeur
+
+== SCÉNARIO 4 : Gestion des Favoris ==
+
+Client -> UI: Clique sur "Ajouter aux favoris"
+UI -> FavService: addFavorite(teacherId)
+note right: Actuellement en localStorage\nFutur: API backend
+FavService -> UI: Sauvegarde dans localStorage
+UI -> Client: Affiche confirmation
+
+Client -> UI: Accède à /favoris
+UI -> FavService: getFavorites()
+FavService -> UI: Récupère depuis localStorage
+note right: Futur: GET /api/favorites\navec authentification
+UI -> Client: Affiche liste des favoris
+
+== SCÉNARIO 5 : Espace Professeur ==
+
+Teacher -> UI: Accède à /professeur/profil\n(authentifié avec ROLE_TEACHER)
+UI -> AuthService: Vérifie token + rôle
+AuthService -> UI: Token valide, ROLE_TEACHER confirmé
+UI -> ProfCtrl: GET /api/professor/profile\n(Header: Authorization Bearer token)
+ProfCtrl -> JWT: Vérifie token
+JWT --> ProfCtrl: Token valide, user_id extrait
+ProfCtrl -> DB: SELECT * FROM teacher\nWHERE user_id = :userId
+DB --> ProfCtrl: Profil du professeur
+ProfCtrl --> UI: {nom, matiere, statut, ...}
+UI -> Teacher: Affiche profil avec statut
+
+Teacher -> UI: Clique sur "Modifier le profil"
+UI -> ProfCtrl: PUT /api/professor/profile\n(Header: Authorization + données)
+ProfCtrl -> JWT: Vérifie token
+JWT --> ProfCtrl: Token valide
+ProfCtrl -> DB: UPDATE teacher SET ...\nWHERE user_id = :userId
+DB --> ProfCtrl: Profil mis à jour
+ProfCtrl --> UI: {message: "Profil mis à jour", data}
+UI -> Teacher: Affiche confirmation
+
+== SCÉNARIO 6 : Back Office Admin ==
+
+Admin -> UI: Accède à /admin\n(authentifié avec ROLE_ADMIN)
+UI -> AuthService: Vérifie token + rôle
+AuthService -> UI: Token valide, ROLE_ADMIN confirmé
+UI -> AdminCtrl: GET /api/admin/dashboard\n(Header: Authorization)
+AdminCtrl -> JWT: Vérifie token + ROLE_ADMIN
+JWT --> AdminCtrl: Accès autorisé
+AdminCtrl -> DB: SELECT COUNT(*) FROM teacher\nSELECT COUNT(*) FROM user\nSELECT COUNT(*) WHERE statut='pending'
+DB --> AdminCtrl: Statistiques
+AdminCtrl --> UI: {totalTeachers, totalUsers, pendingTeachers}
+UI -> Admin: Affiche dashboard avec statistiques
+
+Admin -> UI: Accède à /admin/professeurs
+UI -> AdminCtrl: GET /api/admin/teachers\n(Header: Authorization)
+AdminCtrl -> JWT: Vérifie token + ROLE_ADMIN
+JWT --> AdminCtrl: Accès autorisé
+AdminCtrl -> DB: SELECT * FROM teacher\nORDER BY created_at DESC
+DB --> AdminCtrl: Liste complète (tous statuts)
+AdminCtrl --> UI: {data: [...], total}
+UI -> Admin: Affiche liste avec filtres par statut
+
+Admin -> UI: Clique sur "Approuver" un professeur
+UI -> AdminCtrl: PUT /api/admin/teachers/{id}/approve\n(Header: Authorization)
+AdminCtrl -> JWT: Vérifie token + ROLE_ADMIN
+JWT --> AdminCtrl: Accès autorisé
+AdminCtrl -> DB: UPDATE teacher\nSET statut = 'approved'\nWHERE id = :id
+DB --> AdminCtrl: Statut mis à jour
+AdminCtrl --> UI: {message: "Professeur approuvé"}
+UI -> Admin: Affiche confirmation + actualise liste
+
+== SCÉNARIO 7 : Recherche Textuelle (Futur) ==
+
+Client -> UI: Saisit "mathématiques Paris" dans recherche
+UI -> TeacherService: searchTeachers("mathématiques Paris")
+TeacherService -> TeacherCtrl: GET /api/teachers/search?q=mathématiques+Paris
+TeacherCtrl -> DB: SELECT * FROM teacher\nWHERE statut='approved'\nAND (\n  to_tsvector('french', nom || ' ' || matiere || ' ' || description_courte)\n  @@ to_tsquery('french', 'mathématiques & Paris')\n)
+note right: Utilisation de PostgreSQL\nFull-Text Search (tsvector/tsquery)
+DB --> TeacherCtrl: Résultats de recherche full-text
+TeacherCtrl --> TeacherService: {data: [...], total}
+TeacherService -> UI: Retourne résultats pertinents
+UI -> Client: Affiche résultats classés par pertinence
+
+== SCÉNARIO 8 : Calcul Note Moyenne (Futur) ==
+
+Client -> UI: Consulte fiche détail professeur
+UI -> TeacherService: getTeacherById(id)
+TeacherService -> TeacherCtrl: GET /api/teachers/{id}
+TeacherCtrl -> DB: SELECT t.*,\n  COALESCE(AVG(r.note), 4.5) as note_moyenne,\n  COUNT(r.id) as nombre_avis\nFROM teacher t\nLEFT JOIN review r ON t.id = r.teacher_id\nWHERE t.id = :id\nGROUP BY t.id
+note right: Jointure avec table review\npour calcul en temps réel
+DB --> TeacherCtrl: Détails + note moyenne calculée
+TeacherCtrl --> TeacherService: {id, nom, ..., noteMoyenne: 4.7, nombreAvis: 15}
+TeacherService -> UI: Retourne avec note moyenne
+UI -> Client: Affiche note moyenne + étoiles
+
+== SCÉNARIO 9 : Professeurs Similaires ==
+
+Client -> UI: Consulte fiche détail professeur (id=5, Maths, Paris)
+UI -> TeacherService: getSimilarTeachers(teacherId, matiere, ville)
+TeacherService -> TeacherCtrl: GET /api/teachers/{id}/similar
+TeacherCtrl -> DB: SELECT * FROM teacher\nWHERE statut='approved'\nAND matiere = 'Maths'\nAND (ville = 'Paris' OR cours_en_ligne = true)\nAND id != 5\nORDER BY annees_experience DESC\nLIMIT 4
+note right: Algorithme de similarité:\n1. Même matière\n2. Même ville ou cours en ligne\n3. Exclut le professeur actuel\n4. Tri par expérience
+DB --> TeacherCtrl: 4 professeurs similaires
+TeacherCtrl --> TeacherService: {data: [...]}
+TeacherService -> UI: Retourne liste similaire
+UI -> Client: Affiche "Professeurs similaires"
+
+== SCÉNARIO 10 : Pagination ==
+
+Client -> UI: Clique sur "Page suivante"
+UI -> TeacherService: searchTeachers(query, filters, sort, page=2)
+TeacherService -> TeacherCtrl: GET /api/teachers?page=2&limit=20
+TeacherCtrl -> DB: SELECT * FROM teacher\nWHERE statut='approved'\nORDER BY created_at DESC\nLIMIT 20 OFFSET 20
+note right: Calcul offset:\n(page - 1) * limit\n= (2 - 1) * 20 = 20
+DB --> TeacherCtrl: 20 résultats (page 2)
+TeacherCtrl -> DB: SELECT COUNT(*) FROM teacher\nWHERE statut='approved'
+DB --> TeacherCtrl: Total = 150
+TeacherCtrl --> TeacherService: {data: [...], total: 150, page: 2, limit: 20}
+TeacherService -> UI: Retourne page 2 + métadonnées
+UI -> Client: Affiche page 2 avec pagination\n(Page 1/8)
+
+@enduml
+
