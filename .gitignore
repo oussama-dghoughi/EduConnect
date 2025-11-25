@@ -51,3 +51,6 @@ backend/public/bundles/
 backend/config/secrets/prod/prod.decrypt.private.php
 backend/data.db
 
+# Documentation
+*.md
+
